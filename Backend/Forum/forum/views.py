@@ -2,13 +2,13 @@ from django.shortcuts import render
 from rest_framework import generics 
 from .serializers import UserSerializer, PostSerializer, CommentSerializer
 from .models import User, Post, Comment
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from .permissions import IsOwner
 
 class CreateUserAPIView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [AllowAny]
 
 class UserAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
@@ -24,14 +24,14 @@ class CreatePostAPIView(generics.CreateAPIView):
         serializer.save(creator=self.request.user)
 
 class PostsAPIView(generics.ListAPIView):
-    permission_classes = [IsAuthenticated] 
     queryset = Post.objects.all().select_related('creator').prefetch_related('liked_by')
     serializer_class = PostSerializer
+    permission_classes = [IsAuthenticated] 
 
 class PostAPIView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated, IsOwner] 
     queryset = Post.objects.all().select_related('creator')    
     serializer_class = PostSerializer
+    permission_classes = [IsAuthenticated, IsOwner] 
 
 class CreateCommentAPIView(generics.CreateAPIView):
     queryset = Comment.objects.all()
@@ -42,11 +42,11 @@ class CreateCommentAPIView(generics.CreateAPIView):
         serializer.save(creator=self.request.user)
 
 class CommentsAPIView(generics.ListAPIView):
-    permission_classes = [IsAuthenticated] 
     queryset = Comment.objects.all().select_related('creator', 'post')
     serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated] 
 
 class CommentAPIView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticated, IsOwner] 
     queryset = Comment.objects.all().select_related('creator') 
     serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated, IsOwner] 
