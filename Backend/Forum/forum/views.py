@@ -8,6 +8,7 @@ from .permissions import IsOwner
 class CreateUserAPIView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny]
 
 class UserAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
@@ -15,8 +16,9 @@ class UserAPIView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated, IsOwner]
         
 class CreatePostAPIView(generics.CreateAPIView):
-    queryset = Post.objects.all
+    queryset = Post.objects.all()
     serializer_class = PostSerializer
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user)
@@ -28,12 +30,13 @@ class PostsAPIView(generics.ListAPIView):
 
 class PostAPIView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated, IsOwner] 
-    queryset = Post.objects.all()
+    queryset = Post.objects.all().select_related('creator')    
     serializer_class = PostSerializer
 
 class CreateCommentAPIView(generics.CreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user)
@@ -45,5 +48,5 @@ class CommentsAPIView(generics.ListAPIView):
 
 class CommentAPIView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated, IsOwner] 
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.all().select_related('creator') 
     serializer_class = CommentSerializer

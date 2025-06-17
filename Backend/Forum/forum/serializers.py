@@ -5,6 +5,11 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'email', 'avatar', 'bio']
 
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        return user
+
+
 class PostSerializer(serializers.ModelSerializer):
     creator = UserSerializer(read_only = True)
     like_count = serializers.IntegerField(read_only=True)
@@ -18,7 +23,7 @@ class PostSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     creator = UserSerializer(read_only = True)
     like_count = serializers.IntegerField(read_only=True)
-    
+
     class Meta:
         model = Comment
         fields = ['id', 'creator', 'post', 'content', 
