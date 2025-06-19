@@ -29,11 +29,13 @@ export default function NavItem(props: NavItemProps) {
     <NavigationMenuItem>
       <NavigationMenuTrigger>{props.text}</NavigationMenuTrigger>
       <NavigationMenuContent>
-        {props.subItems?.map((item) => (
-          <NavigationMenuLink key={item.link} asChild>
-            <NavLink to={item.link}>{item.text}</NavLink>
-          </NavigationMenuLink>
-        ))}
+        <div>
+          {props.subItems?.map((item) => (
+            <NavigationMenuLink key={item.link} asChild>
+              <NavLink to={item.link}>{item.text}</NavLink>
+            </NavigationMenuLink>
+          ))}
+        </div>
       </NavigationMenuContent>
     </NavigationMenuItem>
   );

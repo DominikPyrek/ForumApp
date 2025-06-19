@@ -11,6 +11,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/posts" element={<Posts />} />
+          <Route path="/liked-posts" element={<Home />} />
+          <Route path="/your-posts" element={<Home />} />
+          <Route path="/your-comments" element={<Home />} />
+          <Route path="/login" element={<Home />} />
+          <Route path="/register" element={<Home />} />
         </Routes>
       </BrowserRouter>
     </>
