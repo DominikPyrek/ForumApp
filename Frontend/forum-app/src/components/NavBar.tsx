@@ -12,7 +12,7 @@ export default function NavBar() {
           <NavItem type="link" link="/" text="Home" />
           <NavItem
             type="dropdown"
-            text="Posts"
+            text="Discussions"
             subItems={[
               {
                 link: "/posts",
