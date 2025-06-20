@@ -1,7 +1,12 @@
+import { BrowserRouter, Routes, Route } from "react-router";
 import NavBar from "./components/NavBar.tsx";
 import Posts from "./pages/Posts.tsx";
 import Home from "./pages/Home.tsx";
-import { BrowserRouter, Routes, Route } from "react-router";
+import LikedPosts from "./pages/LikedPosts.tsx";
+import YourPosts from "./pages/YourPosts.tsx";
+import YourComments from "./pages/YourComments.tsx";
+import Login from "./pages/Login.tsx";
+import Register from "./pages/Register.tsx";
 
 function App() {
   return (
@@ -11,11 +16,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/posts" element={<Posts />} />
-          <Route path="/liked-posts" element={<Home />} />
-          <Route path="/your-posts" element={<Home />} />
-          <Route path="/your-comments" element={<Home />} />
-          <Route path="/login" element={<Home />} />
-          <Route path="/register" element={<Home />} />
+          <Route path="/liked-posts" element={<LikedPosts />} />
+          <Route path="/your-posts" element={<YourPosts />} />
+          <Route path="/your-comments" element={<YourComments />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </BrowserRouter>
     </>
