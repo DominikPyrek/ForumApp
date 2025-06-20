@@ -6,9 +6,16 @@ from .models import (
 )
 
 class UserSerializer(serializers.ModelSerializer):
+
+    password = serializers.CharField(
+        write_only=True,
+        required=True,
+        style={'input_type': 'password'},
+    )
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'avatar', 'bio']
+        fields = ['id', 'username','password', 'email', 'avatar', 'bio']
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
