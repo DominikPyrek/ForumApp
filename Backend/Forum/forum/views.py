@@ -86,7 +86,34 @@ class CookieTokenObtainView(TokenObtainPairView):
 class CookieTokenRefreshView(TokenRefreshView):
     def post(self, request, *args, **kwargs):
         refresh_token = request.COOKIES.get('refresh_token')
+        data = request.data.copy()
         if refresh_token:
-            request.data['refresh'] = refresh_token
+            data['refresh'] = refresh_token
         
-        return super().post(request, *args, **kwargs)
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        response = Response(serializer.validated_data, status=200)
+        
+        new_access_token = serializer.validated_data.get('access')
+        if new_access_token:
+            response.set_cookie(
+                key='access_token',
+                value=new_access_token,
+                httponly=True,
+                secure=False, 
+                samesite='Lax',
+                max_age=timedelta(minutes=60),
+            )
+
+        new_refresh_token = serializer.validated_data.get('refresh')
+        if new_refresh_token:
+            response.set_cookie(
+                key='refresh_token',
+                value=new_refresh_token,
+                httponly=True,
+                secure=False,
+                samesite='Lax',
+                max_age=timedelta(days=14),
+            )
+        
+        return response
