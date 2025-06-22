@@ -1,4 +1,4 @@
-import { Login } from "@/services/api";
+import { CreatePost } from "@/services/api";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
@@ -12,26 +12,30 @@ import {
 import { Button } from "./ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
 
 const formSchema = z.object({
-  username: z.string().min(5).max(50),
-  password: z.string().min(5).max(50),
+  title: z.string().min(8).max(50),
+  content: z.string().min(8).max(5000),
+  preview_text: z.string().max(250),
 });
 
-export default function RegisterForm() {
+export default function CreatePostForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
-      password: "",
+      title: "",
+      preview_text: "",
+      content: "",
     },
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    Login(data);
+    CreatePost(data);
     form.reset({
-      username: "",
-      password: "",
+      title: "",
+      preview_text: "",
+      content: "",
     });
   }
 
@@ -40,12 +44,12 @@ export default function RegisterForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
-          name="username"
+          name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input placeholder="Your username" {...field} />
+                <Input placeholder="Your posts title" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -54,12 +58,26 @@ export default function RegisterForm() {
 
         <FormField
           control={form.control}
-          name="password"
+          name="preview_text"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Preview</FormLabel>
               <FormControl>
-                <Input placeholder="Your password" {...field} />
+                <Textarea placeholder="Your preview text" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="content"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Post</FormLabel>
+              <FormControl>
+                <Textarea placeholder="Your post" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

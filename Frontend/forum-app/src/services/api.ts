@@ -13,6 +13,12 @@ type LoginData = {
   password: string;
 };
 
+type PostData = {
+  title: string;
+  preview_text: string;
+  content: string;
+};
+
 export function Register(data: RegisterData) {
   const formData = new FormData();
   formData.append("username", data.username);
@@ -30,4 +36,8 @@ export function Register(data: RegisterData) {
 
 export function Login(data: LoginData) {
   return axiosInstance.post("/token/", data);
+}
+
+export function CreatePost(data: PostData) {
+  return axiosInstance.post("/posts/", data);
 }

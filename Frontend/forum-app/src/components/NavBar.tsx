@@ -25,8 +25,8 @@ export default function NavBar() {
             type="dropdown"
             text="Your Creations"
             subItems={[
-              { link: "/your-posts", text: "Created Comments" },
-              { link: "/your-comments", text: "Created Posts" },
+              { link: "/your-posts", text: "Created Posts" },
+              { link: "/your-comments", text: "Created Comments" },
             ]}
           />
           <NavItem type="link" link="/login" text="Login" />
