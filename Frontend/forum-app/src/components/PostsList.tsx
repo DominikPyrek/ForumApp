@@ -62,17 +62,26 @@ export default function PostsList() {
   if (!apiResponse?.results.length) return <div>No posts found</div>;
 
   return (
-    <div className="posts-container">
+    <div className="flex flex-col w-full max-w-[1200px] mx-auto px-4 md:px-6 py-8 md:py-12 mt-10 items-center justify-center ">
       <div className="posts-meta">
         <span>Total Posts: {apiResponse.count}</span>
       </div>
 
       {apiResponse.results.map((post) => (
-        <article key={post.id} className="post-card">
-          <h3>{post.title}</h3>
-          <p className="post-content">{post.content}</p>
-          <div className="post-footer">
-            <span>Posted by {post.creator.username}</span>
+        <article
+          key={post.id}
+          className="group rounded-lg border border-border bg-card p-5 m-4 transition-all hover:bg-accent hover:shadow-md max-w-1/2 min-w-1/2"
+        >
+          <h3 className="mb-2 text-lg font-semibold text-foreground group-hover:text-primary">
+            {post.title}
+          </h3>
+          <p className="mb-4 line-clamp-5 text-sm text-muted-foreground group-hover:text-accent-foreground whitespace-pre-wrap break-words">
+            Preview: {post.content}
+          </p>
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <span className="inline-flex items-center gap-1.5">
+              Posted by {post.creator.username}
+            </span>
             <time dateTime={post.created_at}>
               {new Date(post.created_at).toLocaleDateString()}
             </time>
