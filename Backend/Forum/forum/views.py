@@ -99,10 +99,11 @@ class CookieTokenRefreshView(TokenRefreshView):
             response.set_cookie(
                 key='access_token',
                 value=new_access_token,
-                httponly=True,
+                httponly=False,
                 secure=False, 
-                samesite='Lax',
+                samesite= "Lax",
                 max_age=timedelta(minutes=60),
+                domain=None,
             )
 
         new_refresh_token = serializer.validated_data.get('refresh')
@@ -110,10 +111,11 @@ class CookieTokenRefreshView(TokenRefreshView):
             response.set_cookie(
                 key='refresh_token',
                 value=new_refresh_token,
-                httponly=True,
+                httponly=False,
                 secure=False,
-                samesite='Lax',
+                samesite= "Lax",
                 max_age=timedelta(days=14),
+                domain=None,
             )
         
         return response
