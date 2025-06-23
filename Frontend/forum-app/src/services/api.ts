@@ -1,4 +1,4 @@
-import axiosInstance from "@/lib/axios";
+import axiosInstance from "./axios";
 
 type RegisterData = {
   username: string;
