@@ -19,6 +19,32 @@ type PostData = {
   content: string;
 };
 
+type PostApiResponse = {
+  count: number;
+  next: null | number;
+  previous: null | number;
+  results: Post[];
+};
+
+type Post = {
+  id: number;
+  creator: Creator;
+  title: string;
+  preview_text: string;
+  content: string;
+  created_at: string;
+  liked_by: [];
+  like_count: number;
+};
+
+type Creator = {
+  id: number;
+  username: string;
+  email: string;
+  avatar: null;
+  bio: string;
+};
+
 export function Register(data: RegisterData) {
   const formData = new FormData();
   formData.append("username", data.username);
@@ -40,4 +66,8 @@ export function Login(data: LoginData) {
 
 export function CreatePost(data: PostData) {
   return axiosInstance.post("/posts/", data);
+}
+
+export function GetPosts() {
+  return axiosInstance.get<PostApiResponse>("/posts/list/");
 }

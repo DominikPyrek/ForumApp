@@ -24,7 +24,7 @@ urlpatterns = [
     #Comment
     path('comments/', CreateCommentAPIView.as_view(), name='comment-create'),
     path('comments/<int:pk>/', CommentAPIView.as_view(), name='comment-detail'),
-    path('comments/list/', CommentsAPIView.as_view(), name='comment-list'),
+    path('comments/list/', CommentsAPIView.as_view(), name='comment-list-user'),
     #Tokens
     path('token/', CookieTokenObtainView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', CookieTokenRefreshView.as_view(), name='token_refresh'),
