@@ -4,6 +4,7 @@ from .views import (
     UserAPIView,
     CreatePostAPIView,
     PostAPIView,
+    MyPostsApiView,
     PostsAPIView,
     CreateCommentAPIView,
     CommentAPIView,
@@ -20,6 +21,7 @@ urlpatterns = [
     path('users/<int:pk>', UserAPIView.as_view(), name='user-detail'),
     #Post
     path('posts/', CreatePostAPIView.as_view(), name='post-create'),
+    path('posts/my/', MyPostsApiView.as_view(), name='users-posts'),
     path('posts/<int:pk>/', PostAPIView.as_view(), name='post-detail'),
     path('posts/list/', PostsAPIView.as_view(), name='post-list'),
     #Comment

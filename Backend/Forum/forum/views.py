@@ -33,6 +33,12 @@ class PostsAPIView(generics.ListAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated] 
 
+class MyPostsApiView(generics.ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = [IsAuthenticated] 
+    def get_queryset(self):
+        return Post.objects.filter(creator=self.request.user).select_related('creator').prefetch_related('liked_by')
+
 class PostAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all().select_related('creator')    
     serializer_class = PostSerializer

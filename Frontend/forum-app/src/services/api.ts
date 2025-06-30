@@ -71,3 +71,7 @@ export function CreatePost(data: PostData) {
 export function GetPosts() {
   return axiosInstance.get<PostApiResponse>("/posts/list/");
 }
+
+export function MyPosts() {
+  return axiosInstance.get<PostApiResponse>("/posts/my/");
+}
