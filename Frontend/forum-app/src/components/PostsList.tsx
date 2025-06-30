@@ -44,11 +44,6 @@ export default function PostsList() {
           status: err.response?.status,
           details: err.response?.data,
         });
-
-        // Auto-redirect if unauthorized
-        if (err.response?.status === 401) {
-          window.location.href = "/login";
-        }
       } finally {
         setLoading(false);
       }

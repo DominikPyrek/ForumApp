@@ -6,6 +6,8 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from .permissions import IsOwner
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.response import Response
+from rest_framework_simplejwt.exceptions import TokenError
+from rest_framework.views import APIView
 from datetime import timedelta
 
 class CreateUserAPIView(generics.CreateAPIView):
@@ -87,35 +89,49 @@ class CookieTokenRefreshView(TokenRefreshView):
     def post(self, request, *args, **kwargs):
         refresh_token = request.COOKIES.get('refresh_token')
         data = request.data.copy()
-        if refresh_token:
-            data['refresh'] = refresh_token
+        try:
+            if refresh_token:
+                data['refresh'] = refresh_token
         
-        serializer = self.get_serializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        response = Response(serializer.validated_data, status=200)
+            serializer = self.get_serializer(data=data)
+            serializer.is_valid(raise_exception=True)
+            response = Response(serializer.validated_data, status=200)
         
-        new_access_token = serializer.validated_data.get('access')
-        if new_access_token:
-            response.set_cookie(
-                key='access_token',
-                value=new_access_token,
-                httponly=False,
-                secure=False, 
-                samesite= "Lax",
-                max_age=timedelta(minutes=60),
-                domain=None,
-            )
+            new_access_token = serializer.validated_data.get('access')
+            if new_access_token:
+                response.set_cookie(
+                    key='access_token',
+                    value=new_access_token,
+                    httponly=False,
+                    secure=False, 
+                    samesite= "Lax",
+                    max_age=timedelta(minutes=60),
+                    domain=None,
+                )
 
-        new_refresh_token = serializer.validated_data.get('refresh')
-        if new_refresh_token:
-            response.set_cookie(
-                key='refresh_token',
-                value=new_refresh_token,
-                httponly=False,
-                secure=False,
-                samesite= "Lax",
-                max_age=timedelta(days=14),
-                domain=None,
+            new_refresh_token = serializer.validated_data.get('refresh')
+            if new_refresh_token:
+                response.set_cookie(
+                    key='refresh_token',
+                    value=new_refresh_token,
+                    httponly=False,
+                    secure=False,
+                    samesite= "Lax",
+                    max_age=timedelta(days=14),
+                    domain=None,
+                )
+
+        except TokenError as e:
+            return Response(
+                {"detail": "Invalid or expired refresh token. Please log in again."},
+                status=401
             )
         
+        return response
+
+class Logout(APIView):
+    def post(self, request):
+        response = Response({"detail": "Logged out successfully."}, status=200)
+        response.delete_cookie('access_token')
+        response.delete_cookie('refresh_token')
         return response
