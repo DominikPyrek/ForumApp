@@ -21,8 +21,8 @@ type PostData = {
 
 type PostApiResponse = {
   count: number;
-  next: null | number;
-  previous: null | number;
+  next: null | string;
+  previous: null | string;
   results: Post[];
 };
 
