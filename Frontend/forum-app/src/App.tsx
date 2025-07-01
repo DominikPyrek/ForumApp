@@ -8,6 +8,7 @@ import YourComments from "./pages/YourComments.tsx";
 import Login from "./pages/Login.tsx";
 import Register from "./pages/Register.tsx";
 import PostDetail from "./pages/PostDetail.tsx";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
+        <ToastContainer />
       </BrowserRouter>
     </>
   );
