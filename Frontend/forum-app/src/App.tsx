@@ -7,6 +7,7 @@ import YourPosts from "./pages/YourPosts.tsx";
 import YourComments from "./pages/YourComments.tsx";
 import Login from "./pages/Login.tsx";
 import Register from "./pages/Register.tsx";
+import PostDetail from "./pages/PostDetail.tsx";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/posts" element={<Posts />} />
+          <Route path="/posts/:pk" element={<PostDetail />} />
           <Route path="/liked-posts" element={<LikedPosts />} />
           <Route path="/your-posts" element={<YourPosts />} />
           <Route path="/your-comments" element={<YourComments />} />

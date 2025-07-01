@@ -45,6 +45,22 @@ type Creator = {
   bio: string;
 };
 
+type Comment = {
+  detail?: string;
+  creator: Creator;
+  content: string;
+  post: number;
+  created_at: string;
+  liked_by: Creator;
+};
+
+type CommentApiRespoonse = {
+  count: number;
+  next: null | string;
+  previous: null | string;
+  results: Comment[];
+};
+
 export function Register(data: RegisterData) {
   const formData = new FormData();
   formData.append("username", data.username);
@@ -74,4 +90,22 @@ export function GetPosts() {
 
 export function MyPosts() {
   return axiosInstance.get<PostApiResponse>("/posts/my/");
+}
+
+export function GetPostDetails(pk: string | undefined) {
+  let grabPostById = "posts/" + pk + "/";
+  return axiosInstance.get<Post>(grabPostById);
+}
+
+export function GetComments(pk: string | undefined) {
+  let grabCommentsByPostId = "comments/list/" + pk + "/";
+  return axiosInstance.get<CommentApiRespoonse>(grabCommentsByPostId);
+}
+
+export function CreateComment(data: any) {
+  return axiosInstance.post("/comments/", data);
+}
+
+export function MyComments() {
+  return axiosInstance.get<CommentApiRespoonse>("comments/my/");
 }

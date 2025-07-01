@@ -9,6 +9,7 @@ from .views import (
     CreateCommentAPIView,
     CommentAPIView,
     CommentsAPIView,
+    MyCommentsApiView,
     CookieTokenObtainView,
     CookieTokenRefreshView,
     Logout
@@ -27,7 +28,8 @@ urlpatterns = [
     #Comment
     path('comments/', CreateCommentAPIView.as_view(), name='comment-create'),
     path('comments/<int:pk>/', CommentAPIView.as_view(), name='comment-detail'),
-    path('comments/list/', CommentsAPIView.as_view(), name='comment-list-user'),
+    path('comments/list/<int:pk>/', CommentsAPIView.as_view(), name='comment-list-user'),
+    path('comments/my/', MyCommentsApiView.as_view(), name='users-comments'),
     #Tokens
     path('token/', CookieTokenObtainView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', CookieTokenRefreshView.as_view(), name='token_refresh'),

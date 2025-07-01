@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework import generics 
 from .serializers import UserSerializer, PostSerializer, CommentSerializer
 from .models import User, Post, Comment
-from rest_framework.permissions import IsAuthenticated, AllowAny
-from .permissions import IsOwner
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticatedOrReadOnly
+from .permissions import IsOwner, IsOwnerOrReadOnly
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.response import Response
 from rest_framework_simplejwt.exceptions import TokenError
@@ -44,7 +44,7 @@ class MyPostsApiView(generics.ListAPIView):
 class PostAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all().select_related('creator')    
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated, IsOwner] 
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly] 
 
 class CreateCommentAPIView(generics.CreateAPIView):
     queryset = Comment.objects.all()
@@ -55,14 +55,24 @@ class CreateCommentAPIView(generics.CreateAPIView):
         serializer.save(creator=self.request.user)
 
 class CommentsAPIView(generics.ListAPIView):
-    queryset = Comment.objects.all().select_related('creator', 'post')
     serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticated] 
+    permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        post_id = self.kwargs.get("pk")
+        if post_id:
+            return Comment.objects.filter(post_id=post_id).select_related("creator", "post")
+        return Comment.objects.none()
 
 class CommentAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all().select_related('creator') 
     serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticated, IsOwner] 
+    permission_classes = [IsAuthenticated, IsOwner]
+
+class MyCommentsApiView(generics.ListAPIView):
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated, IsOwner]
+    def get_queryset(self):
+        return Comment.objects.filter(creator=self.request.user).select_related('creator').prefetch_related('liked_by')
 
 class CookieTokenObtainView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
