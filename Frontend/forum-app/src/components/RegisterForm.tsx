@@ -13,13 +13,14 @@ import { Button } from "./ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
+import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 const avatarSchema = z
   .instanceof(File, { message: "Avatar is required" })
-  .refine(
-    (file) => file.size <= 5 * 1024 * 1024,
-    "File size must be less than 5MB"
-  )
+  .refine((file) => file.size <= 5242880, "File size must be less than 5MB")
   .refine((file) => file.type.startsWith("image/"), "Only images are allowed");
 
 const formSchema = z.object({
@@ -43,15 +44,24 @@ export default function RegisterForm() {
 
   const avatar = form.watch("avatar");
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    Register(data);
-    form.reset({
-      username: "",
-      password: "",
-      email: "",
-      bio: "",
-    });
+  async function onSubmit(data: z.infer<typeof formSchema>) {
+    try {
+      await Register(data);
+      form.reset({
+        username: "",
+        password: "",
+        email: "",
+        bio: "",
+      });
+      toast("You have succesfully registered in redirecting to login shortly.");
+      setTimeout(() => navigate("/posts"), 300);
+    } catch (error) {
+      toast("Somthing went wrong: " + error);
+    }
   }
+
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <Form {...form}>
@@ -80,7 +90,29 @@ export default function RegisterForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="Your password" {...field} />
+                <div className="flex">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Your password"
+                    autoFocus
+                    {...field}
+                    className="pr-10"
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="ml-3"
+                    tabIndex={-1}
+                  >
+                    {showPassword ? (
+                      <Eye className="h-4 w-4" />
+                    ) : (
+                      <EyeOff className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -140,7 +172,7 @@ export default function RegisterForm() {
           />
         )}
         <Button type="submit" className="text-md">
-          Submit
+          Register
         </Button>
       </form>
     </Form>
