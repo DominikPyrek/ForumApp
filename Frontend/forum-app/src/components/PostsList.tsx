@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import axiosInstance from "@/services/axios";
 import { Button } from "./ui/button";
+import { ArrowLeft, ArrowRight, ThumbsUp } from "lucide-react";
 
 type PostApiResponse = {
   count: number;
@@ -72,20 +73,24 @@ export default function YourPostsList() {
       <div className="posts-meta m-10">
         <span className="text-2xl">Total Posts: {apiResponse.count}</span>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full min-h-[45vh]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full min-h-[55vh]">
         {results.map((post) => (
           <article
             key={post.id}
             className="h-full group rounded-lg border border-border bg-card p-5 transition-all hover:bg-accent hover:shadow-md"
             onClick={() => (window.location.href = "posts/" + post.id)}
           >
-            <h3 className="mb-2 text-lg font-semibold text-foreground group-hover:text-primary line-clamp-5 whitespace-pre-wrap break-words">
+            <h3 className="mb-2 text-lg font-semibold text-foreground group-hover:text-primary line-clamp-1 whitespace-pre-wrap break-words">
               {post.title}
             </h3>
-            <p className="mb-4 line-clamp-3 text-sm text-muted-foreground group-hover:text-accent-foreground whitespace-pre-wrap break-words">
-              Preview: {post.content}
+            <p className="mb-4 line-clamp-2 text-sm text-muted-foreground group-hover:text-accent-foreground whitespace-pre-wrap break-words">
+              <b>Preview:</b> {post.content}
             </p>
-            <div className="text-xs text-muted-foreground">
+            <div className="flex justify-between items-center text-xs text-muted-foreground">
+              <div className="flex items-center gap-1">
+                <ThumbsUp className="h-4 w-4" />
+                <span>Likes: {post.like_count}</span>
+              </div>
               <time dateTime={post.created_at}>
                 {new Date(post.created_at).toLocaleDateString()}{" "}
                 {new Date(post.created_at).toLocaleTimeString()}
@@ -103,14 +108,18 @@ export default function YourPostsList() {
         <Button
           onClick={() => fetchData(lastPage ?? undefined)}
           disabled={!lastPage}
+          className="min-w-[120px] flex items-center justify-center gap-2"
         >
+          <ArrowLeft />
           Last page
         </Button>
         <Button
           onClick={() => fetchData(nextPage ?? undefined)}
           disabled={!nextPage}
+          className="min-w-[120px] flex items-center justify-center gap-2"
         >
           Next page
+          <ArrowRight />
         </Button>
       </div>
     </div>

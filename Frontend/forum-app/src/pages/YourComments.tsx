@@ -2,6 +2,7 @@ import { MyComments } from "@/services/api";
 import { useEffect, useState } from "react";
 import axiosInstance from "@/services/axios";
 import { Button } from "@/components/ui/button";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 type PostApiResponse = {
   count: number;
@@ -101,6 +102,7 @@ export default function YourComments() {
           onClick={() => fetchData(lastPage ?? undefined)}
           disabled={!lastPage}
         >
+          <ArrowLeft />
           Last page
         </Button>
         <Button
@@ -108,6 +110,7 @@ export default function YourComments() {
           disabled={!nextPage}
         >
           Next page
+          <ArrowRight />
         </Button>
       </div>
     </div>

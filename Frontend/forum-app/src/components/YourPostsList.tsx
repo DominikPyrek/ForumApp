@@ -2,6 +2,7 @@ import { MyPosts } from "@/services/api";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import axiosInstance from "@/services/axios";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 type PostApiResponse = {
   count: number;
@@ -59,7 +60,12 @@ export default function YourPostsList() {
     fetchData();
   }, []);
 
-  if (loading) return <div className="loading-spinner">Loading posts...</div>;
+  if (loading)
+    return (
+      <div className="flex flex-col w-full max-w-[1200px] mx-auto px-4 md:px-6 items-center justify-center min-h-[62vh] text-center">
+        Loading posts...
+      </div>
+    );
   if (error) return <div className="error-message">Error: {error.message}</div>;
   if (!apiResponse?.results.length) return <div>No posts found</div>;
 
@@ -102,6 +108,7 @@ export default function YourPostsList() {
           onClick={() => fetchData(lastPage ?? undefined)}
           disabled={!lastPage}
         >
+          <ArrowLeft />
           Last page
         </Button>
         <Button
@@ -109,6 +116,7 @@ export default function YourPostsList() {
           disabled={!nextPage}
         >
           Next page
+          <ArrowRight />
         </Button>
       </div>
     </div>

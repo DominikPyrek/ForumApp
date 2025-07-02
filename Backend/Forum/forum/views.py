@@ -8,7 +8,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.response import Response
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework.views import APIView
-from .pagination import FiveOnPage
+from .pagination import FiveOnPage, SixOnPage
 from datetime import timedelta
 
 class CreateUserAPIView(generics.CreateAPIView):
@@ -33,6 +33,8 @@ class PostsAPIView(generics.ListAPIView):
     queryset = Post.objects.all().select_related('creator').prefetch_related('liked_by')
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated] 
+    pagination_class = SixOnPage
+
 
 class MyPostsApiView(generics.ListAPIView):
     serializer_class = PostSerializer

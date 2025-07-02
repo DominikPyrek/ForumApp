@@ -18,7 +18,6 @@ export default function NavBar() {
                 link: "/posts",
                 text: "Newest Posts",
               },
-              { link: "/liked-posts", text: "Liked Posts" },
             ]}
           />
           <NavItem

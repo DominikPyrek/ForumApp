@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { NavLink } from "react-router";
+import { LogIn, Compass, Search, Users, MessageCircle } from "lucide-react";
 
 export default function Home() {
   return (
@@ -15,9 +16,11 @@ export default function Home() {
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Button size="lg" className="w-full sm:w-auto">
+            <LogIn className="mr-2 h-4 w-4" />
             <NavLink to="/register">Join Now</NavLink>
           </Button>
           <Button size="lg" variant="outline" className="w-full sm:w-auto">
+            <Compass className="mr-2 h-4 w-4" />
             <NavLink to="/posts">Browse Topics</NavLink>
           </Button>
         </div>
@@ -29,16 +32,19 @@ export default function Home() {
             title: "Discover Topics",
             badge: "Explore",
             description: "Tech, gaming, business—find your niche.",
+            icon: Search,
           },
           {
             title: "Connect",
             badge: "Community",
             description: "Share ideas with like-minded people.",
+            icon: Users,
           },
           {
             title: "Engage",
             badge: "Discuss",
             description: "Start conversations and get feedback.",
+            icon: MessageCircle,
           },
         ].map((feature) => (
           <Card
@@ -46,7 +52,10 @@ export default function Home() {
             className="hover:shadow-md transition-shadow"
           >
             <CardHeader>
-              <Badge className="w-fit">{feature.badge}</Badge>
+              <div className="flex items-center gap-2 mb-2">
+                <Badge className="w-fit">{feature.badge} </Badge>
+                <feature.icon className="h-5 w-5 text-primary" />
+              </div>
               <CardTitle className="text-lg">{feature.title}</CardTitle>
             </CardHeader>
             <CardContent>
