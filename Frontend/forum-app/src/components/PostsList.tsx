@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import axiosInstance from "@/services/axios";
 import { Button } from "./ui/button";
-import { ArrowLeft, ArrowRight, ThumbsUp } from "lucide-react";
+import { ArrowLeft, ArrowRight, ThumbsUp, Newspaper } from "lucide-react";
 
 type PostApiResponse = {
   count: number;
@@ -71,7 +71,10 @@ export default function YourPostsList() {
   return (
     <div className="flex flex-col w-full max-w-[1200px] mx-auto px-4 md:px-6 items-center justify-center mt-10">
       <div className="posts-meta m-10">
-        <span className="text-2xl">Total Posts: {apiResponse.count}</span>
+        <div className="flex items-center gap-2 text-2xl">
+          <Newspaper className="h-6 w-6 text-muted-foreground" />
+          <span>Total Posts: {apiResponse.count}</span>
+        </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full min-h-[55vh]">
         {results.map((post) => (

@@ -2,7 +2,8 @@ import { MyPosts } from "@/services/api";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import axiosInstance from "@/services/axios";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Pencil, Eye } from "lucide-react";
+import { useNavigate } from "react-router";
 
 type PostApiResponse = {
   count: number;
@@ -36,6 +37,7 @@ export default function YourPostsList() {
   const [error, setError] = useState<any | null>(null);
   const [nextPage, setNextPage] = useState<null | string>(null);
   const [lastPage, setlastPage] = useState<null | string>(null);
+  const navigate = useNavigate();
 
   const fetchData = async (url?: string) => {
     setLoading(true);
@@ -94,6 +96,19 @@ export default function YourPostsList() {
                 {new Date(post.created_at).toLocaleDateString()}{" "}
                 {new Date(post.created_at).toLocaleTimeString()}
               </time>
+            </div>
+            <div className="flex gap-5 mt-3 items-center  justify-center">
+              <Button onClick={() => navigate("/posts/" + post.id)}>
+                <Eye />
+                See The Post
+              </Button>
+              <Button
+                onClick={() => navigate("/posts_edit/" + post.id)}
+                variant={"outline"}
+              >
+                <Pencil />
+                Edit It
+              </Button>
             </div>
           </article>
         ))}
