@@ -64,7 +64,7 @@ export default function YourPostsList() {
 
   if (loading)
     return (
-      <div className="flex flex-col w-full max-w-[1200px] mx-auto px-4 md:px-6 items-center justify-center min-h-[62vh] text-center">
+      <div className="flex flex-col w-full max-w-[1200px] mx-auto px-4 md:px-6 items-center justify-center min-h-[67vh] text-center">
         Loading posts...
       </div>
     );
@@ -79,7 +79,7 @@ export default function YourPostsList() {
       <div className="posts-meta m-10">
         <span className="text-2xl">Total Posts: {apiResponse.count}</span>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full min-h-[45vh]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full min-h-[50vh]">
         {results.map((post) => (
           <article
             key={post.id}
