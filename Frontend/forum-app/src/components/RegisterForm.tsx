@@ -13,7 +13,15 @@ import { Button } from "./ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
-import { Eye, EyeOff } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  KeyRound,
+  Mail,
+  User,
+  FileUser,
+  MessageSquareQuote,
+} from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
@@ -75,7 +83,10 @@ export default function RegisterForm() {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>
+                <User />
+                Username
+              </FormLabel>
               <FormControl>
                 <Input placeholder="Your username" {...field} />
               </FormControl>
@@ -88,7 +99,10 @@ export default function RegisterForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>
+                <KeyRound />
+                Password
+              </FormLabel>
               <FormControl>
                 <div className="flex">
                   <Input
@@ -123,7 +137,10 @@ export default function RegisterForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>
+                <Mail />
+                Email
+              </FormLabel>
               <FormControl>
                 <Input placeholder="Your email" {...field} />
               </FormControl>
@@ -137,7 +154,10 @@ export default function RegisterForm() {
           name="bio"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Bio</FormLabel>
+              <FormLabel>
+                <MessageSquareQuote />
+                Bio
+              </FormLabel>
               <FormControl>
                 <Textarea placeholder="Your bio" {...field} />
               </FormControl>
@@ -151,7 +171,10 @@ export default function RegisterForm() {
           name="avatar"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Avatar</FormLabel>
+              <FormLabel>
+                <FileUser />
+                Avatar
+              </FormLabel>
               <FormControl>
                 <Input
                   type="file"
