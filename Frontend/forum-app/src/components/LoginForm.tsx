@@ -15,7 +15,7 @@ import { Input } from "./ui/input";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, KeyRound, User } from "lucide-react";
 
 const formSchema = z.object({
   username: z.string().min(8).max(50),
@@ -64,7 +64,10 @@ export default function RegisterForm() {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>
+                <User />
+                Username
+              </FormLabel>
               <FormControl>
                 <Input autoFocus placeholder="Your username" {...field} />
               </FormControl>
@@ -78,7 +81,10 @@ export default function RegisterForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>
+                <KeyRound />
+                Password
+              </FormLabel>
               <FormControl>
                 <div className="flex">
                   <Input

@@ -62,7 +62,7 @@ export default function RegisterForm() {
         bio: "",
       });
       toast("You have succesfully registered in redirecting to login shortly.");
-      setTimeout(() => navigate("/posts"), 300);
+      setTimeout(() => navigate("/login"), 300);
     } catch (error) {
       toast("Somthing went wrong: " + error);
     }
@@ -165,35 +165,39 @@ export default function RegisterForm() {
             </FormItem>
           )}
         />
-
-        <FormField
-          control={form.control}
-          name="avatar"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>
-                <FileUser />
-                Avatar
-              </FormLabel>
-              <FormControl>
-                <Input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => field.onChange(e.target.files?.[0])}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {avatar && (
-          <img
-            src={URL.createObjectURL(avatar)}
-            alt="Preview"
-            className="h-24 w-24 rounded-full object-cover"
-          />
-        )}
+        <div className="grid grid-cols-4 gap-5">
+          <div className="col-span-3">
+            <FormField
+              control={form.control}
+              name="avatar"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    <FileUser />
+                    Avatar
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => field.onChange(e.target.files?.[0])}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div col-span-1>
+            {avatar && (
+              <img
+                src={URL.createObjectURL(avatar)}
+                alt="Preview"
+                className="h-24 w-24 rounded-full object-cover"
+              />
+            )}
+          </div>
+        </div>
         <Button type="submit" className="text-md">
           Register
         </Button>
