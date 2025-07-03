@@ -1,14 +1,14 @@
+import { CreatePost } from "@/services/api";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
+import { Button } from "../ui/button";
 import { Form } from "@/components/ui/form";
-import { z } from "zod";
+import { CreatePostSchema } from "@/schemas";
 import { PostTitleInput } from "../Inputs/PostTitleInput";
 import { PostTextareaInput } from "../Inputs/PostTextareaInput";
-import { CreatePostSchema } from "@/schemas";
 
-export default function PostForm() {
-  const form = useForm<z.infer<typeof CreatePostSchema>>({
+export default function CreatePostForm() {
+  const form = useForm({
     resolver: zodResolver(CreatePostSchema),
     defaultValues: {
       title: "",
@@ -17,10 +17,14 @@ export default function PostForm() {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof CreatePostSchema>) => {
-    console.log("Submitted data:", data);
-    // Tutaj możesz wywołać API lub inną logikę
-  };
+  function onSubmit(data: any) {
+    CreatePost(data);
+    form.reset({
+      title: "",
+      preview_text: "",
+      content: "",
+    });
+  }
 
   return (
     <Form {...form}>
@@ -38,7 +42,7 @@ export default function PostForm() {
           control={form.control}
           name="content"
           label="Post"
-          placeholder="Your post content"
+          placeholder="Your post"
         />
 
         <Button type="submit" className="text-md">
