@@ -1,65 +1,12 @@
 import axiosInstance from "./axios";
-
-type RegisterData = {
-  username: string;
-  password: string;
-  email: string;
-  bio: string;
-  avatar: File;
-};
-
-type LoginData = {
-  username: string;
-  password: string;
-};
-
-type PostData = {
-  title: string;
-  preview_text: string;
-  content: string;
-};
-
-type PostApiResponse = {
-  count: number;
-  next: null | string;
-  previous: null | string;
-  results: Post[];
-};
-
-type Post = {
-  id: number;
-  creator: Creator;
-  title: string;
-  preview_text: string;
-  content: string;
-  created_at: string;
-  liked_by: [];
-  like_count: number;
-};
-
-type Creator = {
-  id: number;
-  username: string;
-  email: string;
-  avatar: null;
-  bio: string;
-};
-
-type Comment = {
-  detail?: string;
-  creator: Creator;
-  content: string;
-  post: number;
-  created_at: string;
-  liked_by: Creator;
-};
-
-type CommentApiRespoonse = {
-  count: number;
-  next: null | string;
-  previous: null | string;
-  results: Comment[];
-};
+import type {
+  Post,
+  RegisterData,
+  LoginData,
+  PostData,
+  PostApiResponse,
+  CommentApiRespoonse,
+} from "@/types";
 
 export function Register(data: RegisterData) {
   const formData = new FormData();

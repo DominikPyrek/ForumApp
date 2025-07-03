@@ -3,8 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginFormSchema } from "@/schemas";
 import { Form, FormField } from "@/components/ui/form";
 import { Button } from "../ui/button";
-import { UsernameInput } from "../Inputs/UsernameInput";
-import { PasswordInput } from "../Inputs/PasswordInput";
+import UsernameInput from "../Inputs/UsernameInput";
+import PasswordInput from "../Inputs/PasswordInput";
 import { useLogin } from "@/hooks/useLogin";
 import { z } from "zod";
 
@@ -38,9 +38,7 @@ export default function LoginForm() {
         <FormField
           control={form.control}
           name="password"
-          render={({ field }) => (
-            <PasswordInput field={field} label={"password"} />
-          )}
+          render={({ field }) => <PasswordInput field={field} />}
         />
         <Button type="submit" disabled={loading} className="text-md">
           Sign In

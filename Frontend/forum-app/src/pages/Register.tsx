@@ -1,7 +1,7 @@
-import RegisterForm from "@/components/RegisterForm";
-import LoginRegisterWrapper from "@/components/Login/LoginRegisterWrapper";
+import RegisterForm from "@/components/Login_Register/RegisterForm";
+import LoginRegisterWrapper from "@/components/Login_Register/LoginRegisterWrapper";
 import FormWrapper from "@/components/FormWrapper";
-import RegisterHeader from "@/components/Login/RegisterHeader";
+import RegisterHeader from "@/components/Login_Register/RegisterHeader";
 
 function Register() {
   return (

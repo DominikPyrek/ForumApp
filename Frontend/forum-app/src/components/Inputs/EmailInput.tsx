@@ -5,21 +5,21 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { User } from "lucide-react";
+import { Mail } from "lucide-react";
 
-type UsernameInputProps = {
+type EmailInputProps = {
   field: any;
 };
 
-export default function UsernameInput({ field }: UsernameInputProps) {
+export default function EmailInput({ field }: EmailInputProps) {
   return (
     <FormItem>
       <FormLabel>
-        <User />
-        Username
+        <Mail />
+        Email
       </FormLabel>
       <FormControl>
-        <Input autoFocus placeholder="Your username" {...field} />
+        <Input type="email" placeholder="Your email" {...field} />
       </FormControl>
       <FormMessage />
     </FormItem>

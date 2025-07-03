@@ -1,32 +1,34 @@
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
 import {
   FormControl,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { KeyRound, Eye, EyeOff } from "lucide-react";
+import { Button } from "../ui/button";
+import { useState } from "react";
 
 type PasswordInputProps = {
   field: any;
-  label: string;
 };
 
-export function PasswordInput({ field, label }: PasswordInputProps) {
+export default function PasswordInput({ field }: PasswordInputProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <FormItem>
-      <FormLabel>{label}</FormLabel>
+      <FormLabel>
+        <KeyRound />
+        Password
+      </FormLabel>
       <FormControl>
         <div className="flex">
           <Input
             type={showPassword ? "text" : "password"}
+            placeholder="Your password"
             {...field}
             className="pr-10"
-            placeholder="Your password"
           />
           <Button
             type="button"

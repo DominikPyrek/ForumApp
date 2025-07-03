@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 
-import CreatePostForm from "@/components/CreatePostForm";
-import YourPostsList from "@/components/YourPostsList";
+import CreatePostForm from "@/components/Posts/CreatePostForm";
+import YourPostsList from "@/components/Posts/PostsList";
 
 function YourPosts() {
   return (

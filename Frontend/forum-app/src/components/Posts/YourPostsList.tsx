@@ -1,14 +1,14 @@
-import { GetPosts } from "@/services/api";
-import { useEffect } from "react";
-import { useState } from "react";
+import { MyPosts } from "@/services/api";
+import { useEffect, useState } from "react";
+import { Button } from "../ui/button";
 import axiosInstance from "@/services/axios";
-import { Button } from "./ui/button";
-import { ArrowLeft, ArrowRight, ThumbsUp, Newspaper } from "lucide-react";
+import { ArrowLeft, ArrowRight, Pencil, Eye } from "lucide-react";
+import { useNavigate } from "react-router";
 
 type PostApiResponse = {
   count: number;
-  next: null | number;
-  previous: null | number;
+  next: null | string;
+  previous: null | string;
   results: Post[];
 };
 
@@ -37,11 +37,12 @@ export default function YourPostsList() {
   const [error, setError] = useState<any | null>(null);
   const [nextPage, setNextPage] = useState<null | string>(null);
   const [lastPage, setlastPage] = useState<null | string>(null);
+  const navigate = useNavigate();
 
   const fetchData = async (url?: string) => {
     setLoading(true);
     try {
-      const response = url ? await axiosInstance.get(url) : await GetPosts();
+      const response = url ? await axiosInstance.get(url) : await MyPosts();
       const data = response.data;
       setApiResponse(data);
       setNextPage(data.next);
@@ -61,7 +62,12 @@ export default function YourPostsList() {
     fetchData();
   }, []);
 
-  if (loading) return <div className="loading-spinner">Loading posts...</div>;
+  if (loading)
+    return (
+      <div className="flex flex-col w-full max-w-[1200px] mx-auto px-4 md:px-6 items-center justify-center min-h-[67vh] text-center">
+        Loading posts...
+      </div>
+    );
   if (error) return <div className="error-message">Error: {error.message}</div>;
   if (!apiResponse?.results.length) return <div>No posts found</div>;
 
@@ -69,35 +75,40 @@ export default function YourPostsList() {
   const fillerCount = results.length < 4 ? 4 - results.length : 0;
 
   return (
-    <div className="flex flex-col w-full max-w-[1200px] mx-auto px-4 md:px-6 items-center justify-center mt-10">
+    <div className="flex flex-col w-full max-w-[1200px] mx-auto px-4 md:px-6 items-center justify-center ">
       <div className="posts-meta m-10">
-        <div className="flex items-center gap-2 text-2xl">
-          <Newspaper className="h-6 w-6 text-muted-foreground" />
-          <span>Total Posts: {apiResponse.count}</span>
-        </div>
+        <span className="text-2xl">Total Posts: {apiResponse.count}</span>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full min-h-[55vh]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full min-h-[50vh]">
         {results.map((post) => (
           <article
             key={post.id}
             className="h-full group rounded-lg border border-border bg-card p-5 transition-all hover:bg-accent hover:shadow-md"
-            onClick={() => (window.location.href = "posts/" + post.id)}
           >
-            <h3 className="mb-2 text-lg font-semibold text-foreground group-hover:text-primary line-clamp-1 whitespace-pre-wrap break-words">
+            <h3 className="mb-2 text-lg font-semibold text-foreground group-hover:text-primary line-clamp-5 whitespace-pre-wrap break-words">
               {post.title}
             </h3>
-            <p className="mb-4 line-clamp-2 text-sm text-muted-foreground group-hover:text-accent-foreground whitespace-pre-wrap break-words">
-              <b>Preview:</b> {post.content}
+            <p className="mb-4 line-clamp-3 text-sm text-muted-foreground group-hover:text-accent-foreground whitespace-pre-wrap break-words">
+              Preview: {post.content}
             </p>
-            <div className="flex justify-between items-center text-xs text-muted-foreground">
-              <div className="flex items-center gap-1">
-                <ThumbsUp className="h-4 w-4" />
-                <span>Likes: {post.like_count}</span>
-              </div>
+            <div className="text-xs text-muted-foreground">
               <time dateTime={post.created_at}>
                 {new Date(post.created_at).toLocaleDateString()}{" "}
                 {new Date(post.created_at).toLocaleTimeString()}
               </time>
+            </div>
+            <div className="flex gap-5 mt-3 items-center  justify-center">
+              <Button onClick={() => navigate("/posts/" + post.id)}>
+                <Eye />
+                See The Post
+              </Button>
+              <Button
+                onClick={() => navigate("/posts_edit/" + post.id)}
+                variant={"outline"}
+              >
+                <Pencil />
+                Edit It
+              </Button>
             </div>
           </article>
         ))}
@@ -111,7 +122,6 @@ export default function YourPostsList() {
         <Button
           onClick={() => fetchData(lastPage ?? undefined)}
           disabled={!lastPage}
-          className="min-w-[120px] flex items-center justify-center gap-2"
         >
           <ArrowLeft />
           Last page
@@ -119,7 +129,6 @@ export default function YourPostsList() {
         <Button
           onClick={() => fetchData(nextPage ?? undefined)}
           disabled={!nextPage}
-          className="min-w-[120px] flex items-center justify-center gap-2"
         >
           Next page
           <ArrowRight />
