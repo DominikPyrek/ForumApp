@@ -12,7 +12,9 @@ from .views import (
     MyCommentsApiView,
     CookieTokenObtainView,
     CookieTokenRefreshView,
-    Logout
+    Logout,
+    toggle_comment_like,
+    toggle_post_like,
 )
 
 
@@ -33,5 +35,8 @@ urlpatterns = [
     #Tokens
     path('token/', CookieTokenObtainView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', CookieTokenRefreshView.as_view(), name='token_refresh'),
-    path('logout/', Logout.as_view())
+    path('logout/', Logout.as_view()),
+    #Likes
+    path('posts/<int:pk>/like/', toggle_post_like, name='toggle-post-like'),
+    path('comments/<int:pk>/like/', toggle_comment_like, name='toggle-comment-like'),
 ]

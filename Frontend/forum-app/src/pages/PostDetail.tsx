@@ -15,7 +15,7 @@ export default function PostDetail() {
   return (
     <div className="p-10">
       <PostContent post={post} pk={pk!} onCommentSubmit={addComment} />
-      <PostComments comments={comments} />
+      <PostComments comments={comments} pk={pk!} />
     </div>
   );
 }

@@ -56,3 +56,11 @@ export function CreateComment(data: any) {
 export function MyComments() {
   return axiosInstance.get<CommentApiRespoonse>("comments/my/");
 }
+
+export function LikePost(pk: string | undefined) {
+  return axiosInstance.post("posts/" + pk + "/like/");
+}
+
+export function LikeComment(pk: string | undefined) {
+  return axiosInstance.post("comments/" + pk + "/like/");
+}

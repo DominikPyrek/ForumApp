@@ -10,6 +10,8 @@ from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework.views import APIView
 from .pagination import FiveOnPage, SixOnPage
 from datetime import timedelta
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework import status
 
 class CreateUserAPIView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -155,3 +157,37 @@ class Logout(APIView):
         response.delete_cookie('access_token')
         response.delete_cookie('refresh_token')
         return response
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def toggle_post_like(request,pk):
+    try:
+        post = Post.objects.get(pk=pk)
+    except Post.DoesNotExist:
+        return Response({"error": "Post not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    user = request.user
+    if user in post.liked_by.all():
+        post.liked_by.remove(user)
+        return Response({"liked": False, "like_count": post.like_count})
+    else:
+        post.liked_by.add(user)
+        return Response({"liked": True, "like_count": post.like_count})
+
+from .models import Comment
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def toggle_comment_like(request, pk):
+    try:
+        comment = Comment.objects.get(pk=pk)
+    except Comment.DoesNotExist:
+        return Response({"error": "Comment not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    user = request.user
+    if user in comment.liked_by.all():
+        comment.liked_by.remove(user)
+        return Response({"liked": False, "like_count": comment.like_count})
+    else:
+        comment.liked_by.add(user)
+        return Response({"liked": True, "like_count": comment.like_count})

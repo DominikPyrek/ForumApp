@@ -18,8 +18,8 @@ export const RegisterFormSchema = z.object({
   avatar: avatarSchema,
 });
 
-export const PostDetailSchema = z.object({
-  content: z.string().min(10).max(1200),
+export const CreateCommentSchema = z.object({
+  content: z.string().min(10).max(1000),
   post: z.string(),
 });
 
