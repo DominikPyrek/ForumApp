@@ -31,23 +31,36 @@ export function PostCommentForm({ pk, onCommentSubmit }: Props) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full">
         <FormField
           control={form.control}
           name="content"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Comment this post</FormLabel>
+              <FormLabel className="text-lg">Comment this post</FormLabel>
               <FormControl>
-                <Input placeholder="Your comment" {...field} />
+                <Input
+                  placeholder="Your comment"
+                  {...field}
+                  className="w-full"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={form.formState.isSubmitting}>
-          Comment
-        </Button>
+        <div className="flex justify-between">
+          <Button
+            type="submit"
+            disabled={form.formState.isSubmitting}
+            className="text-lg"
+          >
+            Comment
+          </Button>
+          <Button variant="outline" className="w-28  text-lg whitespace-nowrap">
+            Like
+          </Button>
+        </div>
       </form>
     </Form>
   );
