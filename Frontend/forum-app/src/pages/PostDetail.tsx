@@ -13,7 +13,7 @@ export default function PostDetail() {
   if (!post) return <div>Post not found.</div>;
 
   return (
-    <div className="p-10">
+    <div className="p-10 mt-13">
       <PostContent post={post} pk={pk!} onCommentSubmit={addComment} />
       <PostComments comments={comments} pk={pk!} />
     </div>
