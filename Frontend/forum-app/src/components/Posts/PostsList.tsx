@@ -31,7 +31,7 @@ type Creator = {
   bio: string;
 };
 
-export default function YourPostsList() {
+export default function PostList() {
   const [apiResponse, setApiResponse] = useState<PostApiResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<any | null>(null);
