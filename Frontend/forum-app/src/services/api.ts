@@ -64,3 +64,7 @@ export function LikePost(pk: string | undefined) {
 export function LikeComment(pk: string | undefined) {
   return axiosInstance.post("comments/" + pk + "/like/");
 }
+
+export function UpdatePost(pk: string | undefined, data: PostData) {
+  return axiosInstance.put("posts/" + pk + "/", data);
+}

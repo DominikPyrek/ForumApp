@@ -75,7 +75,7 @@ export default function YourPostsList() {
                 <Button
                   size="sm"
                   variant="outline"
-                  onClick={() => navigate("/posts_edit/" + post.id)}
+                  onClick={() => navigate("/edit-post/" + post.id)}
                 >
                   <Pencil className="mr-2 h-4 w-4" />
                   Edit

@@ -87,7 +87,7 @@ export default function PostList() {
               {post.title}
             </h3>
             <p className="mb-4 line-clamp-2 text-sm text-muted-foreground group-hover:text-accent-foreground whitespace-pre-wrap break-words">
-              <b>Preview:</b> {post.content}
+              <b>Preview:</b> {post.preview_text}
             </p>
             <div className="flex justify-between items-center text-xs text-muted-foreground">
               <div className="flex items-center gap-1">

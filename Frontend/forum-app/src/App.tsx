@@ -8,6 +8,7 @@ import Login from "./pages/Login.tsx";
 import Register from "./pages/Register.tsx";
 import PostDetail from "./pages/PostDetail.tsx";
 import { ToastContainer } from "react-toastify";
+import EditPost from "./pages/EditPost.tsx";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/posts" element={<Posts />} />
           <Route path="/posts/:pk" element={<PostDetail />} />
           <Route path="/your-posts" element={<YourPosts />} />
+          <Route path="/edit-post/:pk" element={<EditPost />} />
           <Route path="/your-comments" element={<YourComments />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
