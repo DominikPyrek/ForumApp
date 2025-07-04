@@ -75,8 +75,10 @@ class CommentAPIView(generics.RetrieveUpdateDestroyAPIView):
 class MyCommentsApiView(generics.ListAPIView):
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticated, IsOwner]
+    pagination_class = SixOnPage
     def get_queryset(self):
-        return Comment.objects.filter(creator=self.request.user).select_related('creator').prefetch_related('liked_by')
+        return Comment.objects.filter(creator=self.request.user).select_related('creator', 'post').prefetch_related('liked_by')
+    
 
 class CookieTokenObtainView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):

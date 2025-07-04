@@ -15,7 +15,9 @@ export function PostContent({ post, pk }: Props) {
   return (
     <div className="flex justify-center px-4 w-full">
       <Card className="p-6 w-2/3">
-        <h1 className="text-4xl font-extrabold leading-tight">{post.title}</h1>
+        <h1 className="text-4xl font-extrabold leading-tight break-words">
+          {post.title}
+        </h1>
 
         <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
           <span>

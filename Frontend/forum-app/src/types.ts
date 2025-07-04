@@ -23,6 +23,7 @@ export type Comment = {
   creator: Creator;
   content: string;
   post: number;
+  post_name: string;
   created_at: string;
   liked_by?: Creator[];
 };

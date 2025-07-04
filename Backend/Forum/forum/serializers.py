@@ -33,11 +33,12 @@ class PostSerializer(serializers.ModelSerializer):
         read_only_fields = ['created_at', 'liked_by', 'like_count']
 
 class CommentSerializer(serializers.ModelSerializer):
+    post_name = serializers.CharField(source='post.title', read_only=True)
     creator = UserSerializer(read_only = True)
     like_count = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Comment
-        fields = ['id', 'creator', 'post', 'content', 
+        fields = ['id', 'creator', 'post', 'post_name', 'content', 
                  'created_at', 'liked_by', 'like_count']
         read_only_fields = ['created_at', 'liked_by', 'like_count']
