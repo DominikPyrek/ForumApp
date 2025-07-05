@@ -58,6 +58,8 @@ export default function NavBar() {
           {user ? (
             <>
               <Button
+                variant={"outline"}
+                className="border-none"
                 onClick={() => {
                   Logout();
                   setUser(null);
