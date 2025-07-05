@@ -27,6 +27,14 @@ export function Login(data: LoginData) {
   return axiosInstance.post("/token/", data);
 }
 
+export function Logout() {
+  return axiosInstance.post("/logout/");
+}
+
+export function GetUserData() {
+  return axiosInstance.get("/users/me");
+}
+
 export function CreatePost(data: PostData) {
   return axiosInstance.post("/posts/", data);
 }

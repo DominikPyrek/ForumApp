@@ -60,3 +60,9 @@ export type PostData = {
   preview_text: string;
   content: string;
 };
+
+export type User = {
+  username: string;
+  bio: string;
+  avatar: string;
+};

@@ -7,9 +7,14 @@ import UsernameInput from "../Inputs/UsernameInput";
 import PasswordInput from "../Inputs/PasswordInput";
 import { useLogin } from "@/hooks/useLogin";
 import { z } from "zod";
+import { GetUserData } from "@/services/api";
+import { useContext } from "react";
+import { UserContext } from "../UserContext";
 
 export default function LoginForm() {
   const { loginUser, loading } = useLogin();
+  const { setUser } = useContext(UserContext);
+
   const form = useForm<z.infer<typeof LoginFormSchema>>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues: {
@@ -22,6 +27,8 @@ export default function LoginForm() {
     try {
       await loginUser(data);
       form.reset();
+      const response = await GetUserData();
+      setUser(response.data);
     } catch {
       form.setValue("password", "");
     }
