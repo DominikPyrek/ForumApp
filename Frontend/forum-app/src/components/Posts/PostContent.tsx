@@ -8,9 +8,23 @@ type Props = {
 };
 import { useLike } from "@/hooks/useLike";
 import { ThumbsUp } from "lucide-react";
+import { useContext, useState } from "react";
+import { UserContext } from "../UserContext";
 
 export function PostContent({ post, pk }: Props) {
+  const { user } = useContext(UserContext);
+
+  const sleep = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
+
   const { likes, onClick } = useLike(post.like_count);
+  const [howToLike, setHowToLike] = useState<string>("");
+
+  async function notLoggedInOnClick() {
+    setHowToLike("To like the post you must be logged in");
+    await sleep(10000);
+    setHowToLike("");
+  }
 
   return (
     <div className="flex justify-center px-4 w-full">
@@ -33,13 +47,14 @@ export function PostContent({ post, pk }: Props) {
         </p>
         <div className="flex gap-3 items-center">
           <Button
-            onClick={() => onClick(pk)}
+            onClick={() => (user ? onClick(pk) : notLoggedInOnClick())}
             variant="outline"
             className="w-28 text-lg whitespace-nowrap"
           >
             <ThumbsUp />
             Likes: <strong>{likes}</strong>
           </Button>
+          {howToLike}
         </div>
       </Card>
     </div>

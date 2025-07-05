@@ -14,6 +14,8 @@ import { CreateCommentSchema } from "@/schemas";
 import { z } from "zod";
 import { CreateComment } from "@/services/api";
 import type { Comment } from "@/types";
+import { UserContext } from "../UserContext";
+import { useContext } from "react";
 
 type Props = {
   pk: string;
@@ -30,6 +32,12 @@ export function PostCommentForm({ pk, onCommentSubmit }: Props) {
     const response = await CreateComment(data);
     form.reset({ content: "", post: pk });
     onCommentSubmit(response.data);
+  }
+
+  const { user } = useContext(UserContext);
+
+  if (!user) {
+    return <></>;
   }
 
   return (
