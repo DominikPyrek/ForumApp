@@ -34,7 +34,6 @@ class CreatePostAPIView(generics.CreateAPIView):
 class PostsAPIView(generics.ListAPIView):
     queryset = Post.objects.all().select_related('creator').prefetch_related('liked_by')
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated] 
     pagination_class = SixOnPage
 
 
@@ -48,7 +47,7 @@ class MyPostsApiView(generics.ListAPIView):
 class PostAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all().select_related('creator')    
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly] 
+    permission_classes = [IsOwnerOrReadOnly] 
 
 class CreateCommentAPIView(generics.CreateAPIView):
     queryset = Comment.objects.all()
@@ -60,7 +59,6 @@ class CreateCommentAPIView(generics.CreateAPIView):
 
 class CommentsAPIView(generics.ListAPIView):
     serializer_class = CommentSerializer
-    permission_classes = [IsAuthenticated]
     def get_queryset(self):
         post_id = self.kwargs.get("pk")
         if post_id:
