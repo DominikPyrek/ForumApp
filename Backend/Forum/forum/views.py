@@ -106,7 +106,6 @@ class CookieTokenObtainView(TokenObtainPairView):
                 samesite='Lax',
                 max_age=timedelta(days=14),
             )
-        
         return response
 
 class CookieTokenRefreshView(TokenRefreshView):
@@ -152,6 +151,17 @@ class CookieTokenRefreshView(TokenRefreshView):
             )
         
         return response
+
+class UserInfo(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        user = request.user
+        data = {
+            'username': user.username,
+            'bio': user.bio,
+            'avatar': request.build_absolute_uri(user.avatar.url) if user.avatar else None,
+        }   
+        return Response(data)
 
 class Logout(APIView):
     def post(self, request):
