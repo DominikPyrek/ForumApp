@@ -1,13 +1,19 @@
 import type { Comment } from "@/types";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router";
+import axiosInstance from "@/services/axios";
 
-export function CommentCard({ comment }: { comment: Comment }) {
+export function CommentCard({
+  comment,
+  onCommentDeleted,
+}: {
+  comment: Comment;
+  onCommentDeleted: (id: number) => void;
+}) {
   const navigate = useNavigate();
   return (
     <article
       key={comment.id}
-      onClick={() => navigate("/posts/" + comment.post)}
       className=" group rounded-lg border border-border bg-card p-5 transition-all hover:bg-accent hover:shadow-md"
     >
       <h3 className="mb-2 text-lg font-semibold text-foreground group-hover:text-primary line-clamp-2 whitespace-pre-wrap break-words">
@@ -22,8 +28,23 @@ export function CommentCard({ comment }: { comment: Comment }) {
           {new Date(comment.created_at).toLocaleTimeString()}
         </time>
       </div>
-      <div className="flex justify-center mb-0">
-        <Button onClick={() => {}}>Delete</Button>
+      <div className="flex justify-between mb-0 mt-4 gap-10">
+        <Button onClick={() => navigate("/posts/" + comment.post)}>
+          Go to the post
+        </Button>
+        <Button
+          variant={"outline"}
+          onClick={async () => {
+            try {
+              await axiosInstance.delete(`comments/${comment.id}/`);
+              onCommentDeleted(comment.id);
+            } catch (error) {
+              console.error("Delete failed", error);
+            }
+          }}
+        >
+          Delete
+        </Button>
       </div>
     </article>
   );
