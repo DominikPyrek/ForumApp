@@ -28,7 +28,7 @@ export type Comment = {
   liked_by?: Creator[];
 };
 
-export type CommentApiRespoonse = {
+export type CommentApiResponse = {
   count: number;
   next: null | string;
   previous: null | string;

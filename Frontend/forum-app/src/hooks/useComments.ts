@@ -4,6 +4,7 @@ import type { Comment } from "@/types";
 
 export function useComments(pk?: string) {
   const [comments, setComments] = useState<Comment[]>([]);
+  const [moreComments, setMoreComments] = useState<string | null>("");
   const [loading, setLoading] = useState(true);
 
   async function fetchComments() {
@@ -11,6 +12,7 @@ export function useComments(pk?: string) {
     try {
       const response = await GetComments(pk);
       setComments(response.data.results);
+      setMoreComments(response.data.next);
     } catch (err) {
       console.error("Error fetching comments", err);
     } finally {
@@ -31,5 +33,5 @@ export function useComments(pk?: string) {
     fetchComments();
   }, [pk]);
 
-  return { comments, loading, addComment };
+  return { comments, loading, moreComments, addComment };
 }

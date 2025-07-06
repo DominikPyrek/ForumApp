@@ -7,7 +7,12 @@ import { PostComments } from "@/components/Posts/PostComments";
 export default function PostDetail() {
   const { pk } = useParams<{ pk: string }>();
   const { post, loading: loadingPost } = usePostDetails(pk);
-  const { comments, loading: loadingComments, addComment } = useComments(pk);
+  const {
+    comments,
+    moreComments,
+    loading: loadingComments,
+    addComment,
+  } = useComments(pk);
 
   if (loadingPost || loadingComments) return <div>Loading...</div>;
   if (!post) return <div>Post not found.</div>;
@@ -15,7 +20,7 @@ export default function PostDetail() {
   return (
     <div className="p-10 mt-13">
       <PostContent post={post} pk={pk!} onCommentSubmit={addComment} />
-      <PostComments comments={comments} pk={pk!} />
+      <PostComments comments={comments} pk={pk!} moreComments={moreComments} />
     </div>
   );
 }
