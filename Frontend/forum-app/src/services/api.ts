@@ -5,7 +5,7 @@ import type {
   LoginData,
   PostData,
   PostApiResponse,
-  CommentApiRespoonse,
+  CommentApiResponse,
 } from "@/types";
 
 export function Register(data: RegisterData) {
@@ -54,7 +54,7 @@ export function GetPostDetails(pk: string | undefined) {
 
 export function GetComments(pk: string | undefined) {
   let grabCommentsByPostId = "comments/list/" + pk + "/";
-  return axiosInstance.get<CommentApiRespoonse>(grabCommentsByPostId);
+  return axiosInstance.get<CommentApiResponse>(grabCommentsByPostId);
 }
 
 export function CreateComment(data: any) {
@@ -62,7 +62,7 @@ export function CreateComment(data: any) {
 }
 
 export function MyComments() {
-  return axiosInstance.get<CommentApiRespoonse>("comments/my/");
+  return axiosInstance.get<CommentApiResponse>("comments/my/");
 }
 
 export function LikePost(pk: string | undefined) {
