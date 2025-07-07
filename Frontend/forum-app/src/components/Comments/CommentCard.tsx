@@ -11,6 +11,7 @@ export function CommentCard({
   onCommentDeleted: (id: number) => void;
 }) {
   const navigate = useNavigate();
+
   return (
     <article
       key={comment.id}
