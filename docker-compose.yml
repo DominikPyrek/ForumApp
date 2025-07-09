@@ -17,8 +17,9 @@ services:
       context: ./Backend
     container_name: django_backend
     command: >
-      sh -c "python Forum/manage.py migrate &&
-             python Forum/manage.py runserver 0.0.0.0:8000"
+      sh -c "while ! nc -z db 5432; do sleep 1; done &&
+            python Forum/manage.py migrate &&
+            python Forum/manage.py runserver 0.0.0.0:8000"
     environment:
       - SECRET_KEY=your_secret_key_here
       - CORS_ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
@@ -29,6 +30,7 @@ services:
       - DB_PORT=5432
     volumes:
       - ./Backend:/app
+       - ./Backend/Forum/static:/app/Forum/static
     ports:
       - "8000:8000"
     depends_on:
